@@ -36,13 +36,14 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
 
+
     @Override
     public ClientDto updateClient(long id, ClientDto clientDto) {
         Client client = this.clientRepository.findById(id);
         if (client == null) {
             throw new RuntimeException("No client was found!");
         } else {
-            client.setActive(clientDto.getActive());
+            client.setIsActive(clientDto.getIsActive());
             client.setAge(clientDto.getAge());
             client.setFullName(clientDto.getFullName());
             client.setPhone(clientDto.getPhone());

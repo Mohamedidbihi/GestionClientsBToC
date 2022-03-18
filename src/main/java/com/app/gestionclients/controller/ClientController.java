@@ -17,19 +17,19 @@ public class ClientController {
     @Autowired
     ClientService clientService;
     @GetMapping(path = {"/{id}"})
-    public ResponseEntity<Client> getClient(@PathVariable Long id) {
+    public ResponseEntity<Client> getClient(@PathVariable long id) {
         ClientDto clientDto = this.clientService.getClientById(id);
         ModelMapper modelMapper = new ModelMapper();
+        System.out.println(clientDto.toString());
         return new ResponseEntity(clientDto, HttpStatus.OK);
     }
 
     @GetMapping({"/all"})
-
     public ResponseEntity<List<ClientDto>> getAllUsers() {
         List<ClientDto> clientDtos = clientService.getAllClients();
         return ResponseEntity.ok(clientDtos);
     }
-    
+
     @PatchMapping(
             path = {"/{id}"}
     )
