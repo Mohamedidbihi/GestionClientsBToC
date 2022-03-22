@@ -12,7 +12,7 @@ public class ClientDto {
 
     private  Long id;
     private  String email;
-    private  int phone;
+    private  String phone;
     private  String fullName;
     private  int age;
     private sexe sexe;

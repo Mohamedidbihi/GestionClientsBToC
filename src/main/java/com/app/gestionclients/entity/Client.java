@@ -2,10 +2,10 @@ package com.app.gestionclients.entity;
 
 import com.app.gestionclients.enums.sexe;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity(name = "client")
 @AllArgsConstructor
@@ -20,6 +20,7 @@ public class Client {
             nullable = false)
     private Long id;
 
+    @Email
     @Column(
             nullable = false,
             length = 255,
@@ -28,25 +29,23 @@ public class Client {
     private String email;
 
     @Column(
-            nullable = false,
-            length = 10
+            nullable = false
     )
-    private int phone;
-
+    @Pattern(regexp = "(\\+212|1)(\\d){9}")
+    private String phone;
 
     @NotBlank(message = "Name is required")
     private String fullName;
 
-    @NotBlank(message = "Age is required")
-    @Size(min = 18, max = 64)
+    @NotNull
+    @Range(min=18, max=64)
     private int age;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private sexe sexe;
 
-    @Column(
-            nullable = false
-    )
+    @Column
     private Boolean isActive = true;
 
 }
