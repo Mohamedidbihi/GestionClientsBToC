@@ -4,6 +4,7 @@ import com.app.gestionclients.dto.ClientDto;
 import com.app.gestionclients.entity.Client;
 import com.app.gestionclients.enums.sexe;
 import com.app.gestionclients.repository.ClientRepository;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
@@ -13,20 +14,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Service("ClientService")
+@Service("ClientService") @AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
     @Autowired
     ClientRepository clientRepository;
 
 
     @Override
-    public ClientDto getClientyById(Long id) {
+    public ClientDto getClientById(Long id) {
         Client client = this.clientRepository.findById(id).get();
         if (client == null) {
             throw new RuntimeException("error");
@@ -39,14 +39,11 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto getClientByEmail(String email) {
+
         Client client = this.clientRepository.findClientByEmailAndIsActiveIsTrue(email);
-        if (client == null) {
-            throw new RuntimeException("error");
-        } else {
-            ClientDto clientDto = new ClientDto();
-            BeanUtils.copyProperties(client, clientDto);
-            return clientDto;
-        }
+        ClientDto clientDto = new ClientDto();
+        BeanUtils.copyProperties(client, clientDto);
+        return clientDto;
     }
 
 
@@ -71,15 +68,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void deleteClient(Long id) {
+    public boolean deleteClient(Long id) {
         Client client = this.clientRepository.findClientById(id);
-        if (client == null) {
-            throw new RuntimeException("null");
-        } else {
-            System.out.println(client.getIsActive());
            client.setIsActive(false);
            clientRepository.save(client);
-        }
+         return true;
     }
 
     @Override
@@ -109,7 +102,6 @@ public class ClientServiceImpl implements ClientService {
             String regexEmail = "^[A-Za-z0-9+_.-]+@(.+)$";
 
             Pattern patternEmail = Pattern.compile(regexEmail);
-
 
             for(Client c : clients){
                 Matcher matcherEmail = patternEmail.matcher(c.getEmail());

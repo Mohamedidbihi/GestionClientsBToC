@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface ClientService {
 
-    ClientDto getClientyById(Long id);
+    ClientDto getClientById(Long id);
 
     ClientDto getClientByEmail(String email);
 
     ClientDto updateClient(Long id,ClientDto clientDto);
 
-    void deleteClient(Long id);
+    boolean deleteClient(Long id);
 
     List<ClientDto> getAllClients(int page,int limit);
 

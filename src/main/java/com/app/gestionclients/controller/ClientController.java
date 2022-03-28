@@ -45,7 +45,7 @@ public class ClientController {
 
     @GetMapping(path = {"/{id}"})
     public ResponseEntity<ClientDto> getClientById(@PathVariable Long id) {
-        ClientDto clientDto = this.clientService.getClientyById(id);
+        ClientDto clientDto = this.clientService.getClientById(id);
         return new ResponseEntity(clientDto, HttpStatus.OK);
     }
 
@@ -75,11 +75,8 @@ public class ClientController {
             path = {"/{id}"}
     )
     public ResponseEntity<ClientDto> updateUser(@PathVariable Long id, @RequestBody ClientDto clientDto) {
-
         ClientDto updateClient = this.clientService.updateClient(id, clientDto);
         return new ResponseEntity(updateClient, HttpStatus.ACCEPTED);
     }
-
-
 
 }
